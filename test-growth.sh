@@ -8,5 +8,6 @@ javac -encoding UTF-8 -d "$task_test_dir" \
     src/main/java/cn/frogdevour/GrowthRules.java \
     src/main/java/cn/frogdevour/FeedingBudget.java \
     src/main/java/cn/frogdevour/HealthRules.java \
+    src/main/java/cn/frogdevour/KeyConflictRules.java \
     src/test/java/cn/frogdevour/GrowthRulesTest.java
 java -cp "$task_test_dir" cn.frogdevour.GrowthRulesTest

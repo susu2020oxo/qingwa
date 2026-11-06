@@ -82,6 +82,16 @@ public final class GrowthRulesTest {
         check(HealthRules.afterMaxChange(28, 30, 6) == 6, "Reset clamps health");
         check(HealthRules.afterMaxChange(2, 30, 6) == 2, "Reset does not heal wounds");
         check(HealthRules.afterMaxChange(0, 6, 30) == 0, "Growth cannot resurrect dead player");
-        System.out.println("PASS: " + checks + " growth rule checks");
+        check(KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.r", "key.keyboard.r", true), "R devour must not reload Iris");
+        check(!KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.r", "key.keyboard.f", true), "Remapped devour leaves Iris R usable");
+        check(!KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.f", "key.keyboard.r", true), "Remapped Iris reload stays usable");
+        check(!KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.r", "key.keyboard.r", false), "Menus or non-frog play never suppress reload");
+        check(!KeyConflictRules.suppressReload("iris.keybind.toggleShaders", "key.keyboard.r", "key.keyboard.r", true), "Shader toggle not affected");
+        check(!KeyConflictRules.suppressReload("iris.keybind.shaderPackSelection", "key.keyboard.r", "key.keyboard.r", true), "Shader pack selector not affected");
+        check(!KeyConflictRules.suppressReload("othermod.action", "key.keyboard.r", "key.keyboard.r", true), "Other mods not affected");
+        check(!KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.unknown", "key.keyboard.unknown", true), "Unbound key not treated as active conflict");
+        check(KeyConflictRules.suppressReload("iris.keybind.reload", "key.mouse.middle", "key.mouse.middle", true), "User mouse rebind also supported");
+        check(KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.f", "key.keyboard.f", true), "Conflict follows actual binding rather than hardcoded R");
+        System.out.println("PASS: " + checks + " gameplay rule checks");
     }
 }

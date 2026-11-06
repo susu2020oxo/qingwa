@@ -2,6 +2,6 @@
   "required": true,
   "package": "cn.frogdevour.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["LivingDimensionsMixin"],
+  "mixins": ["LivingDimensionsMixin", "FrogBreathingMixin"],
   "injectors": {"defaultRequire": 1}
 }

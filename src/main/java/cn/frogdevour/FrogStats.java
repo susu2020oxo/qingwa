@@ -12,6 +12,8 @@ public final class FrogStats {
     private FrogStats() { }
 
     public static void update(ServerPlayerEntity player) {
+        // Refill any air left depleted by an older mod version, including after load/respawn.
+        if (player.getAir() < player.getMaxAir()) player.setAir(player.getMaxAir());
         EntityAttributeInstance attribute = player.getAttributeInstance(EntityAttributes.MAX_HEALTH);
         if (attribute == null) return;
         double bonus = FrogData.stage(player).maxHealth - VANILLA_HEALTH;

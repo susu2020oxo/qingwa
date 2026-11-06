@@ -2,12 +2,12 @@
 
 Minecraft **Java 版 1.21.10 / Fabric** 模组源码。进入世界就成为原版温带青蛙，默认按 **R** 吐舌头吞噬生物，按 **F5** 查看模型。按键可在「选项 → 控制 → 按键绑定 → 青蛙吞噬」修改。
 
-**完整编译与 241 项成长/吞噬容量检查已通过，尚未进行实际游戏测试。** 构建记录见 `BUILD-STATUS.md`。
+**完整编译与 251 项玩法规则检查已通过，尚未进行实际游戏测试。** 构建记录见 `BUILD-STATUS.md`。
 
 ## 下载
 
-- [下载模组 JAR](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.1.jar)
-- [下载 ZIP 安装包（JAR + 中文说明）](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.1-install.zip)
+- [下载模组 JAR](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.2.jar)
+- [下载 ZIP 安装包（JAR + 中文说明）](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.2-install.zip)
 
 将 JAR 放入 **Minecraft Java 1.21.10 + Fabric** 实例的 `mods` 文件夹，并安装适配 1.21.10 的 Fabric API。ZIP 安装包需要先解压，JAR 文件不用解压。
 
@@ -35,13 +35,17 @@ Minecraft **Java 版 1.21.10 / Fabric** 模组源码。进入世界就成为原�
 
 食量保存到玩家存档，退出重进、死亡重生和更换维度后保留。多人游戏中所有玩家均为青蛙；服务端和客户端都需要安装本模组及 Fabric API。
 
-## 血量与 Iris 光影兼容
+## 血量、水下呼吸与 Iris 兼容
 
 四档最大血量为 **3 / 6 / 10 / 15 颗心**（6 / 12 / 20 / 30 点生命值）。新玩家开局为 3 颗心；升级时增加生命上限并补上新增的心，原有伤势保留。死亡重生、退出重进和管理员体型指令也会应用对应血量。旧存档保留食量，按原阶段自动缩小体型并应用血量。
 
-v1.0.1 将舌头从调试方块渲染层改为标准不透明实体模型，通过渲染命令队列提交，包含纹理、光照与法线；在提取阶段保存不可变动画快照。此改动针对 Iris 下的闪屏问题，尚未在用户使用的具体光影包中确认。
+青蛙在所有成长阶段都能**永久水下呼吸**，不会消耗氧气或受到原版缺氧窒息伤害。通过原版水下呼吸判定实现，无需药水；进入世界、旧存档更新和死亡重生后，残留的低氧气值会恢复。
 
-升级时请移除旧版 JAR，只保留 v1.0.1；多人游戏中客户端和服务器一起更新。
+Iris 默认也将 **R** 绑定为“重新加载光影包”，与吞噬同时触发会导致光影重载闪屏。v1.0.2 在进入支持吞噬的世界、没有打开菜单且玩家不是观察者时，检测两个功能是否绑定到同一个键；只有同键时才丢弃 Iris 的重载点击，保留吞噬点击。**不会修改或保存 Iris 的按键设置**；改成不同按键后，光影重载照常使用。也可以手动在“选项 → 控制 → 按键绑定 → Iris”中更改“重新加载光影包”。
+
+按键冲突已核对 [Iris 源码](https://github.com/IrisShaders/Iris/blob/11e691d94343a6e372affc1a80a0a1f06d6378ff/common/src/main/java/net/irisshaders/iris/Iris.java#L782)。用户已确认调整按键后闪屏解决。舌头保留标准不透明实体模型、光照与法线，并在提取阶段保存不可变快照。
+
+升级时请移除旧版 JAR，只保留 v1.0.2；多人游戏中客户端和服务器一起更新。
 
 ## 在自己的电脑生成 JAR
 
@@ -65,7 +69,7 @@ gradlew.bat build
 sh gradlew build
 ```
 
-构建成功后，安装 **`build/libs/frog-devour-1.0.1.jar`**。名称中带 `sources` 的文件是源码包，不能作为游戏模组安装。
+构建成功后，安装 **`build/libs/frog-devour-1.0.2.jar`**。名称中带 `sources` 的文件是源码包，不能作为游戏模组安装。
 
 `.github/workflows/build.yml` 会在 `main` 分支代码更新后自动编译、检查并发布到 `downloads` 分支，也可以从 GitHub Actions 手动运行。
 
@@ -73,7 +77,7 @@ sh gradlew build
 
 1. 在启动器中创建 **Minecraft Java 版 1.21.10** 实例，安装 **Fabric Loader 0.17.3 或更新版本**。
 2. 下载适配 **1.21.10** 的 **Fabric API 0.138.4+1.21.10 或更新兼容版**。
-3. 将 Fabric API 与编译生成的 `frog-devour-1.0.1.jar` 放入这个实例的 `mods` 文件夹。
+3. 将 Fabric API 与编译生成的 `frog-devour-1.0.2.jar` 放入这个实例的 `mods` 文件夹。
 4. 启动游戏，进入世界。默认立即变为小青蛙，按 F5 查看，瞄准鸡等小生物按 R。
 
 不要放入 Forge / NeoForge 实例，也不要把它当作 1.21.1、1.21.4 或基岩版模组。

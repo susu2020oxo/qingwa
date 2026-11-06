@@ -55,7 +55,7 @@ jobs:
             git switch -C publish-downloads FETCH_HEAD
           else
             git switch --orphan publish-downloads
-            git rm -rf .
+            git rm -rf --ignore-unmatch .
           fi
           mkdir -p downloads
           cp "$RUNNER_TEMP/frog-downloads/"* downloads/

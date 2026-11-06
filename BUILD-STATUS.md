@@ -2,44 +2,30 @@
 
 日期：2026-11-06。
 
-## 已完成的验证
+## 构建结果
 
-- 使用真实 JDK 21 编译 `GrowthRules.java`、`FeedingBudget.java` 和 `GrowthRulesTest.java`。
-- 执行结果：**PASS: 224 growth rule checks**。
-- 检查覆盖成长阈值、3:1 换算、余量保留、猎物等级门槛、批量/混合容量、舌头数量限制和整数溢出。
-- Gradle 8.14.3 Wrapper 分发下载成功。
-- 19 个 Java 文件通过 Java 21 语法解析（仅语法，不代表完成类型检查）。
-- JSON 资源、Mixin 对应源码、中文/英文翻译键、Shell 脚本语法检查通过；公共源码未导入客户端类。
-- 核对了 FabricMC `yarn` 和 `fabric` 仓库的 **1.21.10** 分支，使用本版本的按键分类、渲染命令队列、HUD、世界渲染事件和持久化附件接口。
+**完整构建和下载发布已成功。**
 
-## 完整构建阻塞
+- 构建记录：https://github.com/susu2020oxo/qingwa/actions/runs/42157177033
+- 构建源码提交：`7234137f15d1a9aacf2484b8126f3d3b9e1e57fa`
+- Java 21、Minecraft 1.21.10、Yarn 1.21.10+build.2、Fabric API 0.138.4+1.21.10。
+- `compileJava`、`compileClientJava`、资源处理、Mixin 注解处理、`remapJar`、`check` 和 `build` 均通过。
+- 成长与批量容量测试：**PASS: 224 growth rule checks**。
+- 发布文件已从公开下载直链重新下载，JAR 和 ZIP 均通过 ZIP 完整性及 SHA-256 校验。
+- JAR 包含公共/客户端入口类、Mixin 配置及映射文件、中英文资源，版本为 1.0.0，游戏版本限制为 1.21.10。
+- ZIP 内含同一个 JAR 和中文安装说明。
 
-执行 `gradlew --no-daemon build` 后，在解析 Fabric Loom 插件阶段失败：
+## 下载
 
-```text
-Plugin [id: 'fabric-loom', version: '1.11.8'] was not found
-could not resolve plugin artifact
-fabric-loom:fabric-loom.gradle.plugin:1.11.8
-```
-
-当前执行环境采用受限网络策略，直接检测依赖地址的结果为：
+- [模组 JAR](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.0.jar)
+- [ZIP 安装包](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.0-install.zip)
 
 ```text
-https://maven.fabricmc.net/ -> CONNECT tunnel failed, response 403
-https://piston-meta.mojang.com/ -> CONNECT tunnel failed, response 403
+a110e746a87ccc9b3e55a2998ae728cde48ed5cb0263fa03c0ef0a28877c7431  FrogDevour-Fabric-1.21.10-v1.0.0.jar
+237317fa152b9feb1342df04f9e434f3e1b8df53b184f7137535a72f902b5a25  FrogDevour-Fabric-1.21.10-v1.0.0-install.zip
+
 ```
 
-因此游戏代码尚未被完整编译，Mixin 注入目标和渲染效果尚未经过运行验证；没有生成安装用 JAR。项目包含完整源码和构建脚本，后续仍可能需要根据真实编译或游戏日志修正兼容问题。
+## 验证范围
 
-完成构建需要可访问 Fabric Maven、Maven Central、Gradle 和 Minecraft 下载服务；通常包括：
-
-- `maven.fabricmc.net`
-- `piston-meta.mojang.com`
-- `piston-data.mojang.com`
-- `libraries.minecraft.net`
-- `repo.maven.apache.org`
-- `services.gradle.org` 及其官方下载跳转
-
-开发客户端还会下载 `resources.download.minecraft.net` 上的游戏资源。当前没有修改网络策略、没有上传 GitHub，也没有发布模组。
-
-在正常可联网的 JDK 21 环境中运行 `build-mod.bat` 或 `sh build-mod.sh`。编译成功后，按 `TESTING.md` 进行游戏验收。
+已经通过编译、自动规则检查和下载文件校验；**尚未进行真实游戏内的渲染、完整玩法和联机测试**。验收步骤见 `TESTING.md`。

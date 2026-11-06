@@ -2,7 +2,14 @@
 
 Minecraft **Java 版 1.21.10 / Fabric** 模组源码。进入世界就成为原版温带青蛙，默认按 **R** 吐舌头吞噬生物，按 **F5** 查看模型。按键可在「选项 → 控制 → 按键绑定 → 青蛙吞噬」修改。
 
-**交付状态：源码已编写，成长与批量容量规则通过 224 项独立检查；当前环境阻止 Fabric/Minecraft 依赖下载，完整模组尚未编译、尚未进行游戏实测，没有提供可安装 JAR。** 详细状态见 `BUILD-STATUS.md`。
+**完整编译与 224 项成长/吞噬容量检查已通过，尚未进行实际游戏测试。** 构建记录见 `BUILD-STATUS.md`。
+
+## 下载
+
+- [下载模组 JAR](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.0.jar)
+- [下载 ZIP 安装包（JAR + 中文说明）](https://github.com/susu2020oxo/qingwa/raw/refs/heads/downloads/downloads/FrogDevour-Fabric-1.21.10-v1.0.0-install.zip)
+
+将 JAR 放入 **Minecraft Java 1.21.10 + Fabric** 实例的 `mods` 文件夹，并安装适配 1.21.10 的 Fabric API。ZIP 安装包需要先解压，JAR 文件不用解压。
 
 ## 玩法与成长
 
@@ -52,7 +59,7 @@ sh gradlew build
 
 构建成功后，安装 **`build/libs/frog-devour-1.0.0.jar`**。名称中带 `sources` 的文件是源码包，不能作为游戏模组安装。
 
-也附带 `.github/workflows/build.yml`：将工程上传到你自己的 GitHub 仓库后，可在 Actions 中运行构建并下载产物。此工程没有自动上传或发布到任何账号。
+`.github/workflows/build.yml` 会在 `main` 分支代码更新后自动编译、检查并发布到 `downloads` 分支，也可以从 GitHub Actions 手动运行。
 
 ## 安装
 
@@ -79,7 +86,7 @@ sh gradlew build
 sh test-growth.sh
 ```
 
-游戏验收步骤见 `TESTING.md`。没有下载到真实 Minecraft/Fabric 依赖前，不能据此认定渲染、Mixin 或联机已通过验证。
+游戏验收步骤见 `TESTING.md`。目前已完成真实依赖下的编译、Mixin 注解处理和发布打包；渲染效果、完整玩法与联机仍需在游戏内验收。
 
 ## 行为说明
 

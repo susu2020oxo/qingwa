@@ -1,0 +1,74 @@
+package cn.frogdevour;
+
+import cn.frogdevour.GrowthRules.PreySize;
+import cn.frogdevour.GrowthRules.Stage;
+
+/** Standalone tests also run with javac/java, without Minecraft or Gradle. */
+public final class GrowthRulesTest {
+    private static int checks;
+    private static void check(boolean condition, String message) {
+        checks++;
+        if (!condition) throw new AssertionError(message);
+    }
+
+    public static void main(String[] args) {
+        check(GrowthRules.stage(0) == Stage.SMALL, "Start small");
+        int food = 0;
+        for (int i = 0; i < 9; i++) food = GrowthRules.add(food, PreySize.SMALL);
+        check(GrowthRules.stage(food) == Stage.SMALL, "Nine meals cannot upgrade");
+        food = GrowthRules.add(food, PreySize.SMALL);
+        check(GrowthRules.stage(food) == Stage.MEDIUM, "Ten small meals upgrade");
+        check(GrowthRules.progress(food) == 0, "New stage starts empty");
+        check(GrowthRules.required(food) == 30, "Medium needs ten medium meals");
+        for (int i = 0; i < 9; i++) food = GrowthRules.add(food, PreySize.MEDIUM);
+        check(GrowthRules.stage(food) == Stage.MEDIUM, "Nine medium meals cannot upgrade");
+        food = GrowthRules.add(food, PreySize.MEDIUM);
+        check(GrowthRules.stage(food) == Stage.LARGE, "Ten medium meals upgrade");
+        for (int i = 0; i < 10; i++) food = GrowthRules.add(food, PreySize.LARGE);
+        check(GrowthRules.stage(food) == Stage.GIANT, "Ten large meals upgrade");
+        check(GrowthRules.required(food) == 0, "No fifth stage");
+        check(GrowthRules.add(10, PreySize.MEDIUM) == GrowthRules.add(GrowthRules.add(GrowthRules.add(10,
+                PreySize.SMALL), PreySize.SMALL), PreySize.SMALL), "Three small equal one medium");
+        check(GrowthRules.add(40, PreySize.LARGE) == GrowthRules.add(GrowthRules.add(GrowthRules.add(40,
+                PreySize.MEDIUM), PreySize.MEDIUM), PreySize.MEDIUM), "Three medium equal one large");
+        food = 10;
+        for (int i = 0; i < 30; i++) food = GrowthRules.add(food, PreySize.SMALL);
+        check(GrowthRules.stage(food) == Stage.LARGE, "Small prey remains useful later");
+        check(GrowthRules.progress(41) == 1, "Leftover units retained");
+        for (Stage stage : Stage.values()) {
+            for (PreySize prey : PreySize.values()) {
+                check(GrowthRules.canEat(stage, prey) == (stage.index >= prey.level), "Stage gate " + stage + " " + prey);
+            }
+            check(stage.mouthCapacity >= PreySize.values()[stage.index].units, "Can swallow own class");
+        }
+        check(Stage.LARGE.maxTongues == 9 && Stage.LARGE.mouthCapacity == 9, "Large has nine small tongues");
+        check(Stage.GIANT.maxTongues == 27 && Stage.GIANT.mouthCapacity == 27, "Giant has 27 small tongues");
+        for (Stage stage : Stage.values()) {
+            FeedingBudget budget = new FeedingBudget(stage);
+            for (int i = 0; i < stage.maxTongues; i++) check(budget.take(PreySize.SMALL), "Small batch within capacity");
+            check(!budget.take(PreySize.SMALL), "No extra tongue beyond limit");
+        }
+        FeedingBudget large = new FeedingBudget(Stage.LARGE);
+        check(large.take(PreySize.MEDIUM) && large.take(PreySize.MEDIUM) && large.take(PreySize.MEDIUM), "Three medium in large batch");
+        check(!large.take(PreySize.SMALL), "Full stomach rejects next target");
+        FeedingBudget mixed = new FeedingBudget(Stage.LARGE);
+        check(mixed.take(PreySize.MEDIUM), "Mixed batch first medium");
+        check(!mixed.take(PreySize.BOSS) && mixed.remaining() == 6 && mixed.count() == 1, "Rejected target consumes no budget");
+        for (int i = 0; i < 6; i++) check(mixed.take(PreySize.SMALL), "Mixed batch fills remaining capacity");
+        check(!mixed.take(PreySize.SMALL), "Mixed batch stops at nine units");
+        FeedingBudget boss = new FeedingBudget(Stage.GIANT);
+        check(boss.take(PreySize.BOSS) && !boss.take(PreySize.SMALL), "A boss occupies an entire giant batch");
+        FeedingBudget medium = new FeedingBudget(Stage.MEDIUM);
+        check(!medium.take(PreySize.LARGE) && medium.take(PreySize.SMALL) && !medium.take(PreySize.SMALL), "Medium keeps a single tongue");
+        check(GrowthRules.add(Integer.MAX_VALUE, PreySize.BOSS) == GrowthRules.MAX_UNITS, "Food cannot overflow");
+        check(GrowthRules.add(-10, PreySize.SMALL) == 1, "Negative input cannot corrupt progress");
+        check(GrowthRules.stage(9) == Stage.SMALL && GrowthRules.stage(39) == Stage.MEDIUM
+                && GrowthRules.stage(129) == Stage.LARGE && GrowthRules.stage(130) == Stage.GIANT, "Boundary values");
+        for (int units = 0; units < 130; units++) {
+            check(GrowthRules.progress(units) >= 0 && GrowthRules.progress(units) < GrowthRules.required(units), "Progress bounds");
+        }
+        check(Stage.SMALL.width() < Stage.MEDIUM.width() && Stage.MEDIUM.width() < Stage.LARGE.width()
+                && Stage.LARGE.width() < Stage.GIANT.width(), "Physical size increases");
+        System.out.println("PASS: " + checks + " growth rule checks");
+    }
+}

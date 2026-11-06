@@ -1,0 +1,65 @@
+name: Build Minecraft 1.21.10 Mod
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - '*gradle*'
+      - 'gradle/**'
+      - '.github/workflows/build.yml'
+  pull_request:
+permissions:
+  contents: write
+concurrency:
+  group: frog-devour-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Build and verify growth rules
+        run: bash ./gradlew --no-daemon build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frog-devour-1.21.10
+          path: build/libs/frog-devour-1.0.0.jar
+          if-no-files-found: error
+      - name: Prepare install downloads
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p "$RUNNER_TEMP/frog-downloads"
+          cp build/libs/frog-devour-1.0.0.jar "$RUNNER_TEMP/frog-downloads/FrogDevour-Fabric-1.21.10-v1.0.0.jar"
+          cat > "$RUNNER_TEMP/frog-downloads/安装说明.txt" <<'TXT'
+          青蛙吞噬 v1.0.0
+          适用 Minecraft Java 版 1.21.10 + Fabric。
+          将 JAR 放入该游戏实例的 mods 文件夹，并安装适配 1.21.10 的 Fabric API 0.138.4 或更新兼容版本。
+          进入世界即为小青蛙，R 键吞噬，F5 查看青蛙模型。
+          青蛙按小型、中型、大型、巨型成长；大型开始支持多舌头。
+          编译经过自动检查，尚未进行实际游戏测试。
+          TXT
+          cd "$RUNNER_TEMP/frog-downloads"
+          zip FrogDevour-Fabric-1.21.10-v1.0.0-install.zip FrogDevour-Fabric-1.21.10-v1.0.0.jar 安装说明.txt
+          sha256sum FrogDevour-Fabric-1.21.10-v1.0.0.jar FrogDevour-Fabric-1.21.10-v1.0.0-install.zip > SHA256SUMS.txt
+      - name: Publish direct download files
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          if git ls-remote --exit-code --heads origin downloads >/dev/null; then
+            git fetch origin downloads
+            git switch -C publish-downloads FETCH_HEAD
+          else
+            git switch --orphan publish-downloads
+            git rm -rf .
+          fi
+          mkdir -p downloads
+          cp "$RUNNER_TEMP/frog-downloads/"* downloads/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloads
+          git commit -m 'Publish Frog Devour 1.21.10 download files' || test -z "$(git status --porcelain --untracked-files=no)"
+          git push origin HEAD:refs/heads/downloads

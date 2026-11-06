@@ -1,0 +1,17 @@
+{
+  "key.category.frogdevour.controls": "Frog Devour",
+  "key.frogdevour.devour": "Tongue / Devour",
+  "stage.frogdevour.small": "Small",
+  "stage.frogdevour.medium": "Medium",
+  "stage.frogdevour.large": "Large",
+  "stage.frogdevour.giant": "Giant",
+  "hud.frogdevour.size": "Frog size: %s  |  %sx vanilla",
+  "hud.frogdevour.progress": "Growth %s / %s food  |  [%s] Devour",
+  "hud.frogdevour.max": "Maximum size  |  [%s] Devour",
+  "message.frogdevour.welcome": "You are a small frog! Press R to devour and F5 to see your frog. Use /frog to check your food.",
+  "message.frogdevour.too_big": "That creature is too big. Eat smaller creatures to grow!",
+  "message.frogdevour.no_target": "No prey: move closer, aim at a creature, and keep a clear line of sight.",
+  "message.frogdevour.grew": "Ribbit! Your frog grew: %s!",
+  "message.frogdevour.ate": "Ribbit! Swallowed %s creatures.",
+  "message.frogdevour.info": "Size: %s. Total food: %s. Small 1 / Medium 3 / Large 9 / Boss 27."
+}

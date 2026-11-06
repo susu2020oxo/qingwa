@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "frogdevour",
+  "version": "${version}",
+  "name": "青蛙吞噬 · Frog Devour",
+  "description": "化身原版青蛙，按 R 吞噬生物，从小青蛙成长为巨型青蛙。",
+  "authors": ["Frog Devour"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["cn.frogdevour.FrogDevour"],
+    "client": ["cn.frogdevour.client.FrogDevourClient"]
+  },
+  "mixins": ["frogdevour.mixins.json", { "config": "frogdevour.client.mixins.json", "environment": "client" }],
+  "depends": {
+    "fabricloader": ">=0.17.3",
+    "minecraft": "1.21.10",
+    "java": ">=21",
+    "fabric-api": ">=0.138.4+1.21.10"
+  }
+}

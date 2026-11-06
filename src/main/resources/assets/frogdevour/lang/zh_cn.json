@@ -1,0 +1,17 @@
+{
+  "key.category.frogdevour.controls": "青蛙吞噬",
+  "key.frogdevour.devour": "吐舌头 / 吞噬",
+  "stage.frogdevour.small": "小型",
+  "stage.frogdevour.medium": "中型",
+  "stage.frogdevour.large": "大型",
+  "stage.frogdevour.giant": "巨型",
+  "hud.frogdevour.size": "青蛙体型：%s  ·  原版 %s 倍",
+  "hud.frogdevour.progress": "成长 %s / %s 食量  ·  [%s] 吞噬",
+  "hud.frogdevour.max": "已达最大体型  ·  [%s] 万物吞噬",
+  "message.frogdevour.welcome": "你已化身小青蛙！按 R 吞噬，按 F5 查看青蛙外形。输入 /frog 查看食量。",
+  "message.frogdevour.too_big": "目标太大了，先吞噬小一些的生物来成长！",
+  "message.frogdevour.no_target": "没有可吞噬目标：请靠近、瞄准生物，并避开墙壁。",
+  "message.frogdevour.grew": "呱！你成长为%s青蛙！",
+  "message.frogdevour.ate": "呱！吞噬了 %s 只生物。",
+  "message.frogdevour.info": "当前体型：%s，累计食量：%s。换算：小型 1 / 中型 3 / 大型 9 / 首领 27。"
+}

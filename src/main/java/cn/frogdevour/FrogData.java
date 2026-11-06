@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public final class FrogData {
     public static final AttachmentType<Integer> FOOD = AttachmentRegistry.create(FrogDevour.id("food"), builder -> builder
@@ -23,5 +24,6 @@ public final class FrogData {
     public static void setFood(PlayerEntity player, int units) {
         player.setAttached(FOOD, Math.clamp(units, 0, GrowthRules.MAX_UNITS));
         player.calculateDimensions();
+        if (player instanceof ServerPlayerEntity serverPlayer) FrogStats.update(serverPlayer);
     }
 }

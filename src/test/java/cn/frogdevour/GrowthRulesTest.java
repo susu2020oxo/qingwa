@@ -69,6 +69,19 @@ public final class GrowthRulesTest {
         }
         check(Stage.SMALL.width() < Stage.MEDIUM.width() && Stage.MEDIUM.width() < Stage.LARGE.width()
                 && Stage.LARGE.width() < Stage.GIANT.width(), "Physical size increases");
+        check(Stage.SMALL.maxHealth == 6, "Start with three hearts");
+        check(Stage.MEDIUM.maxHealth == 12 && Stage.LARGE.maxHealth == 20 && Stage.GIANT.maxHealth == 30, "Stage health increases");
+        for (Stage stage : Stage.values()) {
+            check(stage.width() <= 0.9f && stage.height() <= 2.9f, "Fit within Warden dimensions");
+            check(stage.eyeHeight() < stage.height(), "Camera stays within frog height");
+        }
+        check(HealthRules.afterMaxChange(20, 20, 6) == 6, "Initial health capped at three hearts");
+        check(HealthRules.afterMaxChange(4, 6, 12) == 10, "Growth keeps two points of existing damage");
+        check(HealthRules.afterMaxChange(6, 6, 12) == 12, "Healthy frog gains newly unlocked hearts");
+        check(HealthRules.afterMaxChange(4, 6, 6) == 4, "Repeated sync never heals");
+        check(HealthRules.afterMaxChange(28, 30, 6) == 6, "Reset clamps health");
+        check(HealthRules.afterMaxChange(2, 30, 6) == 2, "Reset does not heal wounds");
+        check(HealthRules.afterMaxChange(0, 6, 30) == 0, "Growth cannot resurrect dead player");
         System.out.println("PASS: " + checks + " growth rule checks");
     }
 }

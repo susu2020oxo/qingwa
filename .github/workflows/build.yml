@@ -29,24 +29,27 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: frog-devour-1.21.10
-          path: build/libs/frog-devour-1.0.0.jar
+          path: build/libs/frog-devour-1.0.1.jar
           if-no-files-found: error
       - name: Prepare install downloads
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           mkdir -p "$RUNNER_TEMP/frog-downloads"
-          cp build/libs/frog-devour-1.0.0.jar "$RUNNER_TEMP/frog-downloads/FrogDevour-Fabric-1.21.10-v1.0.0.jar"
+          cp build/libs/frog-devour-1.0.1.jar "$RUNNER_TEMP/frog-downloads/FrogDevour-Fabric-1.21.10-v1.0.1.jar"
           cat > "$RUNNER_TEMP/frog-downloads/安装说明.txt" <<'TXT'
-          青蛙吞噬 v1.0.0
+          青蛙吞噬 v1.0.1
           适用 Minecraft Java 版 1.21.10 + Fabric。
           将 JAR 放入该游戏实例的 mods 文件夹，并安装适配 1.21.10 的 Fabric API 0.138.4 或更新兼容版本。
           进入世界即为小青蛙，R 键吞噬，F5 查看青蛙模型。
+          最大体型为原版青蛙 1.8 倍；四档血量为 3/6/10/15 颗心。
           青蛙按小型、中型、大型、巨型成长；大型开始支持多舌头。
+          新版已改为标准实体舌头渲染，针对 Iris 光影闪屏；尚待具体光影包确认。
+          请删除旧版 JAR，只保留此版本，联机时服务端和客户端一起更新。
           编译经过自动检查，尚未进行实际游戏测试。
           TXT
           cd "$RUNNER_TEMP/frog-downloads"
-          zip FrogDevour-Fabric-1.21.10-v1.0.0-install.zip FrogDevour-Fabric-1.21.10-v1.0.0.jar 安装说明.txt
-          sha256sum FrogDevour-Fabric-1.21.10-v1.0.0.jar FrogDevour-Fabric-1.21.10-v1.0.0-install.zip > SHA256SUMS.txt
+          zip FrogDevour-Fabric-1.21.10-v1.0.1-install.zip FrogDevour-Fabric-1.21.10-v1.0.1.jar 安装说明.txt
+          sha256sum FrogDevour-Fabric-1.21.10-v1.0.1.jar FrogDevour-Fabric-1.21.10-v1.0.1-install.zip > SHA256SUMS.txt
       - name: Publish direct download files
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |

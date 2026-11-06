@@ -30,16 +30,21 @@ public class FrogDevour implements ModInitializer {
         PayloadTypeRegistry.playS2C().register(TonguePayload.ID, TonguePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(DevourPayload.ID, (payload, context) -> DevourManager.attack(context.player()));
         ServerTickEvents.END_SERVER_TICK.register(DevourManager::tick);
+        ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(FrogStats::update));
         ServerLifecycleEvents.SERVER_STARTED.register(server -> DevourManager.clear());
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> DevourManager.clear());
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayerEntity player = handler.player;
             player.getAttachedOrCreate(FrogData.FOOD);
             player.calculateDimensions();
+            FrogStats.update(player);
             player.sendMessage(Text.translatable("message.frogdevour.welcome"), false);
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> DevourManager.disconnect(handler.player));
-        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> newPlayer.calculateDimensions());
+        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+            newPlayer.calculateDimensions();
+            FrogStats.update(newPlayer);
+        });
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> dispatcher.register(
                 CommandManager.literal("frog")
                     .executes(context -> {

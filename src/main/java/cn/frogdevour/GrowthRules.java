@@ -7,23 +7,26 @@ public final class GrowthRules {
     private GrowthRules() { }
 
     public enum Stage {
-        SMALL(0, "小型", 1.0f, 6.0, 1, 1, 24),
-        MEDIUM(1, "中型", 2.5f, 9.0, 3, 1, 24),
-        LARGE(2, "大型", 6.0f, 14.0, 9, 9, 30),
-        GIANT(3, "巨型", 14.0f, 40.0, 27, 27, 40);
+        SMALL(0, "小型", 1.0f, 6, 6.0, 1, 1, 24),
+        MEDIUM(1, "中型", 1.25f, 12, 9.0, 3, 1, 24),
+        LARGE(2, "大型", 1.5f, 20, 14.0, 9, 9, 30),
+        GIANT(3, "巨型", 1.8f, 30, 40.0, 27, 27, 40);
 
         public final int index;
         public final String chineseName;
         public final float modelScale;
+        /** Two health points make one heart. */
+        public final int maxHealth;
         public final double reach;
         public final int mouthCapacity;
         public final int maxTongues;
         public final int cooldownTicks;
 
-        Stage(int index, String name, float scale, double reach, int capacity, int tongues, int cooldown) {
+        Stage(int index, String name, float scale, int maxHealth, double reach, int capacity, int tongues, int cooldown) {
             this.index = index;
             this.chineseName = name;
             this.modelScale = scale;
+            this.maxHealth = maxHealth;
             this.reach = reach;
             this.mouthCapacity = capacity;
             this.maxTongues = tongues;

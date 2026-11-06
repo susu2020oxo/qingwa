@@ -9,6 +9,6 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-echo 编译成功！安装 build\libs\frog-devour-1.0.0.jar，不要安装 sources.jar。
+echo 编译成功！安装 build\libs\frog-devour-1.0.1.jar，不要安装 sources.jar。
 explorer build\libs
 pause

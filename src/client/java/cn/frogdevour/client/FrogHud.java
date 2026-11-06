@@ -22,7 +22,7 @@ public final class FrogHud {
         int width = 182;
         draw.fill(center - width / 2 - 4, y - 3, center + width / 2 + 4, y + 30, 0xB016241D);
         Text title = Text.translatable("hud.frogdevour.size", Text.translatable("stage.frogdevour." + stage.name().toLowerCase(Locale.ROOT)),
-                String.format(Locale.ROOT, "%.1f", stage.modelScale));
+                new java.math.BigDecimal(Float.toString(stage.modelScale)).stripTrailingZeros().toPlainString());
         draw.drawCenteredTextWithShadow(client.textRenderer, title, center, y, 0xFFB9F88A);
         int required = GrowthRules.required(food);
         if (required > 0) {

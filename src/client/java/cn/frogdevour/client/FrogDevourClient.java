@@ -62,6 +62,7 @@ public final class FrogDevourClient implements ClientModInitializer {
             cooldown = 0;
         });
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT, FrogDevour.id("growth"), FrogHud::render);
-        WorldRenderEvents.BEFORE_TRANSLUCENT.register(TongueEffects::render);
+        WorldRenderEvents.END_EXTRACTION.register(TongueEffects::extract);
+        WorldRenderEvents.BEFORE_ENTITIES.register(TongueEffects::render);
     }
 }

@@ -1,2 +1,2 @@
-03895cba311b7d855ccfe3f72c46645b0ea43c7a99d0ee72f93a9705f8daef7b  FrogDevour-Fabric-1.21.10-v1.0.2.jar
-ffd92fb1978be5f31f0252601201ebd0a7be816c7c417fc090f53c9d1d573717  FrogDevour-Fabric-1.21.10-v1.0.2-install.zip
+44d84890ab00f69cce6f41d3c4dcdfcf39a5cf1761e31a624418e327f6dd51db  FrogDevour-Fabric-1.21.10-v1.0.2.jar
+3acc2748aaa14bc33204ca40a4ddd1f4355dad6cc8247232b39c23750ecb309a  FrogDevour-Fabric-1.21.10-v1.0.2-install.zip

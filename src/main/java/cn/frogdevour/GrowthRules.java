@@ -8,8 +8,8 @@ public final class GrowthRules {
 
     public enum Stage {
         SMALL(0, "小型", 1.0f, 6, 6.0, 1, 1, 24),
-        MEDIUM(1, "中型", 1.25f, 12, 9.0, 3, 1, 24),
-        LARGE(2, "大型", 1.5f, 20, 14.0, 9, 9, 30),
+        MEDIUM(1, "中型", 1.25f, 12, 12.0, 3, 1, 24),
+        LARGE(2, "大型", 1.5f, 20, 24.0, 9, 9, 30),
         GIANT(3, "巨型", 1.8f, 30, 40.0, 27, 27, 40);
 
         public final int index;

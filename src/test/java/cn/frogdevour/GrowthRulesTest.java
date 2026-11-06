@@ -92,6 +92,8 @@ public final class GrowthRulesTest {
         check(!KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.unknown", "key.keyboard.unknown", true), "Unbound key not treated as active conflict");
         check(KeyConflictRules.suppressReload("iris.keybind.reload", "key.mouse.middle", "key.mouse.middle", true), "User mouse rebind also supported");
         check(KeyConflictRules.suppressReload("iris.keybind.reload", "key.keyboard.f", "key.keyboard.f", true), "Conflict follows actual binding rather than hardcoded R");
+        check(Stage.SMALL.reach == 6 && Stage.MEDIUM.reach == 12 && Stage.LARGE.reach == 24 && Stage.GIANT.reach == 40, "Tongue ranges follow growth stages");
+        check(Stage.SMALL.reach < Stage.MEDIUM.reach && Stage.MEDIUM.reach < Stage.LARGE.reach && Stage.LARGE.reach < Stage.GIANT.reach, "Every growth stage extends tongue reach");
         System.out.println("PASS: " + checks + " gameplay rule checks");
     }
 }

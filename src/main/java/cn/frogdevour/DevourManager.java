@@ -47,7 +47,7 @@ public final class DevourManager {
         if (clock < COOLDOWNS.getOrDefault(player.getUuid(), 0L)) return;
         Stage stage = FrogData.stage(player);
         COOLDOWNS.put(player.getUuid(), clock + stage.cooldownTicks);
-        ServerWorld world = player.getServerWorld();
+        ServerWorld world = (ServerWorld) player.getEntityWorld();
         Vec3d start = player.getEyePos();
         Vec3d look = player.getRotationVec(1.0f);
         Vec3d end = start.add(look.multiply(stage.reach));
@@ -113,7 +113,7 @@ public final class DevourManager {
     }
 
     private static boolean visible(ServerPlayerEntity player, MobEntity mob, Vec3d point) {
-        HitResult hit = player.getServerWorld().raycast(new RaycastContext(player.getEyePos(), point,
+        HitResult hit = player.getEntityWorld().raycast(new RaycastContext(player.getEyePos(), point,
                 RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
         return hit.getType() == HitResult.Type.MISS || hit.getPos().squaredDistanceTo(point) < 0.1;
     }
@@ -124,7 +124,7 @@ public final class DevourManager {
         while (iterator.hasNext()) {
             Meal meal = iterator.next();
             ServerPlayerEntity player = meal.player();
-            if (player.isRemoved() || !player.isAlive() || player.isSpectator() || player.getServerWorld() != meal.world()) {
+            if (player.isRemoved() || !player.isAlive() || player.isSpectator() || player.getEntityWorld() != meal.world()) {
                 release(meal);
                 iterator.remove();
                 continue;
